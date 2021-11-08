@@ -2,15 +2,14 @@
 <html>
 	<head>
         <meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>World Database Lookup</title>
-
+    	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 		<!-- you can modify this as needed or to your preference -->
 		<link href="world.css" type="text/css" rel="stylesheet" />
-
 		<!-- you write this -->
 		<script src="world.js" type="text/javascript"></script>
 	</head>
-
 	<body>
 		<header>
 			<h1>World Database Lookup</h1>
@@ -18,9 +17,10 @@
 
 		<main>
 			<div id="controls">
-				<label for="country">Country:</label>
-				<input id="country" type="search" name="country" placeholder="Enter country name" />
-				<button id="lookup">Lookup</button>
+				<form class="lookup" method="GET" action="http://localhost/info2180-lab5/world.php">
+					<input id="country" type="search" name="country" placeholder="Enter country name" />
+					<button type="submit" id="lookup">Lookup</button>
+				</form>
 			</div>
 			
 			<div id="result">
