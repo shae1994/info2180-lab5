@@ -5,28 +5,41 @@
 		<meta http-equiv="X-UA-Compatible" content="ie=edge">
 		<title>World Database Lookup</title>
     	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<!-- you can modify this as needed or to your preference -->
 		<link href="world.css" type="text/css" rel="stylesheet" />
-		<!-- you write this -->
 		<script src="world.js" type="text/javascript"></script>
 	</head>
+
 	<body>
 		<header>
+			<a href="https://www.freeiconspng.com/img/35423" title="Image from freeiconspng.com"><img src="https://www.freeiconspng.com/uploads/world-map-png-17.png" width="350" alt="World Map PNG Image" /></a>
 			<h1>World Database Lookup</h1>
 		</header>
+
+		<br>
 
 		<main>
 			<div id="controls">
 				<form class="lookup" method="GET" action="http://localhost/info2180-lab5/world.php">
 					<input id="country" type="search" name="country" placeholder="Enter country name" />
-					<button type="submit" id="lookup">Lookup</button>
+					<br>
+					<br>
+					<button type="submit" id="lookup">Search By Country</button>
+					<button type="submit" id="lookup">Search By City</button>
 				</form>
 			</div>
+
+			<br>
 			
 			<div id="result">
-				<!-- countries will appear here -->
+				<table class = "center">
+					<tr>
+					  <th>Name</th>
+					  <th>Continent</th>
+					  <th>Independence</th>
+					  <th>Head of State</th>
+					</tr>
+				  </table>
 			</div>
 		</main>
-
 	</body>
 </html>
