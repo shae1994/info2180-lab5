@@ -1,104 +1,66 @@
+
 <?php
-  header('Access-Control-Allow-Origin:*');
-  $country=$_GET["country"];
-  $city=$_GET["context"];
+header('Access-Control-Allow-Origin:*');
+$host = 'localhost';
+$username = 'lab5_user';
+$password = 'password123';
+$dbname = 'world';
 
-  $host = 'localhost';
-  $username = 'lab5_user';
-  $password = 'password123';
-  $dbname = 'world';
+$context = $_SERVER['QUERY_STRING'];
+$country = filter_input(INPUT_GET, "country", FILTER_SANITIZE_STRING);
 
-  $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-  $stmt = $conn->query("SELECT * FROM countries WHERE name LIKE '%$country%'");
-  $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-  if (!isset($_GET['lookup']) || empty($_GET['lookup']) &&  isset($_GET['cities'])=='cities') {
-    if (isset($_GET['lookup']) == ""){
-      $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-      $stmt = $conn->query("SELECT cities.name, cities.district, cities.population FROM countries INNER JOIN cities ON countries.code=cities.country_code WHERE countries.name LIKE  '%$country%'");
-      $results = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+$conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+$lookupcities = $conn->query("SELECT * FROM countries JOIN cities ON countries.code = cities.country_code where countries.name LIKE '%$country%'");
+$cities = $lookupcities->fetchAll(PDO::FETCH_ASSOC);
 
+$connection = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+$lookupcountries = $connection->query("SELECT * FROM countries WHERE name LIKE '%$country%'");
+$countries = $lookupcountries->fetchAll(PDO::FETCH_ASSOC);
+
+$string= "country=".$country;
+$determinant = $string;
+
+if($context == $determinant){
   echo "<table>";
   echo "<tr>";
-  echo "<th>Name</th>";
-  echo "<th>District</th>";
-  echo "<th>Population</th>";
-  echo "</tr>";
-  foreach ($results as $row){
+  echo "<th> Name  </th>";
+  echo "<th> Continent </th>";
+  echo "<th> Year of Independence  </th>";
+  echo "<th> Head of State </th>";
+  echo "</tr>"; 
+  foreach ($countries as $row){
     echo "<tr>";
-    echo "<td>" . $row['name']."</td>";
-    echo "<td>" . $row['district']."</td>";
-    echo "<td>" . $row['population']."</td>"; 
-    echo "</tr>";
-
-      }
-      echo "</table>";
-    }else{
-      echo "Tester";
-      echo "<table>";
-      echo "<tr>";
-      echo "<th>Name</th>";
-      echo "<th>Continent</th>";
-      echo "<th>Independence Year</th>";
-      echo "<th>Head of State</th>";
-      echo "</tr>";
-      foreach ($results as $row){
-        echo "<tr>";
-        echo "<td>" . $row['name']."</td>";
-        echo "<td>" . $row['continent']."</td>";
-        echo "<td>" . $row['independence_year']."</td>";
-        echo "<td>" . $row['head_of_state']."</td>"; 
-        echo "</tr>";
-      }
-      echo "</table>";
-
-    }
-  if (!isset($_GET['cities']) || empty($_GET['cities'])) {
-    echo "Test";
-    if (isset($_GET['cities']) == ""){
-
-  $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-  $stmt = $conn->query("SELECT cities.name, cities.district, cities.population FROM countries INNER JOIN cities ON countries.code=cities.country_code WHERE countries.name LIKE  '%$country%'");
-  $results = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-
-  echo "<table>";
-  echo "<tr>";
-  echo "<th>Name</th>";
-  echo "<th>District</th>";
-  echo "<th>Population</th>";
-  echo "</tr>";
-  foreach ($results as $row){
-    echo "<tr>";
-    echo "<td>" . $row['name']."</td>";
-    echo "<td>" . $row['district']."</td>";
-    echo "<td>" . $row['population']."</td>"; 
-    echo "</tr>";
-
-  //}
-}
-    }else{
-      $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
-      $stmt = $conn->query("SELECT cities.name, cities.district, cities.population FROM countries INNER JOIN cities ON countries.code=cities.country_code WHERE countries.name LIKE  '%$country%'");
-      $results = $stmt->fetchAll(PDO::FETCH_ASSOC); 
-      echo "<table>";
-      echo "<tr>";
-      echo "<th>Name</th>";
-      echo "<th>District</th>";
-      echo "<th>Population</th>";
-      echo "</tr>";
-      foreach ($results as $row){
-        echo "<tr>";
-        echo "<td>" . $row['name']."</td>";
-        echo "<td>" . $row['district']."</td>";
-        echo "<td>" . $row['population']."</td>"; 
-        echo "</tr>";
-    
-      //}
-    }
-
-    }
+    echo "<td>".$row['name']."</td>";
+    echo "<td>".$row['continent']."</td>";
+    echo "<td>". $row['independence_year']."</td>";
+    echo "<td>".$row['head_of_state']."</td>";
+    echo "</tr>"; 
   }
-}/*
+
+}else{
+  echo "<table>";
+  echo "<tr>";
+  echo "<th> Name  </th>";
+  echo "<th> District </th>";
+  echo "<th> Population </th>";
+  echo "</tr>";
+  foreach ($cities as $row){
+    echo "<tr>";
+    echo "<td>".$row['name']."</td>";
+    echo "<td>".$row['district']."</td>";
+    echo "<td>".$row['population']."</td>";
+    echo "</tr>";
+  }
+  echo"</table>";
+
+
+}
+  
+
+
+/*
+COUNTRY
 }elseif (isset($_GET['lookup'])) {
  
     echo "<table>";
@@ -121,22 +83,22 @@
 }
 */
 
-/*
-  echo "<table>";
-  echo "<tr>";
-  echo "<th>Name</th>";
-  echo "<th>Continent</th>";
-  echo "<th>Independence Year</th>";
-  echo "<th>Head of State</th>";
-  echo "</tr>";
-  foreach ($results as $row){
-    echo "<tr>";
-    echo "<td>" . $row['name']."</td>";
-    echo "<td>" . $row['continent']."</td>";
-    echo "<td>" . $row['independence_year']."</td>";
-    echo "<td>" . $row['head_of_state']."</td>"; 
-    echo "</tr>";
-  }
+/* CITIES
+      $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+      $stmt = $conn->query("SELECT cities.name, cities.district, cities.population FROM countries INNER JOIN cities ON countries.code=cities.country_code WHERE countries.name LIKE  '%$country%'");
+      $results = $stmt->fetchAll(PDO::FETCH_ASSOC); 
+      echo "<table>";
+      echo "<tr>";
+      echo "<th>Name</th>";
+      echo "<th>District</th>";
+      echo "<th>Population</th>";
+      echo "</tr>";
+      foreach ($results as $row){
+        echo "<tr>";
+        echo "<td>" . $row['name']."</td>";
+        echo "<td>" . $row['district']."</td>";
+        echo "<td>" . $row['population']."</td>"; 
+        echo "</tr>";
   echo "</table>";
 
 

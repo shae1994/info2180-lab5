@@ -2,14 +2,13 @@ $(document).ready(function() {
 
     $("form").submit(function(e) {
         e.preventDefault();
-        
-        $("#lookup").click(function(){
-            $(this).val('lookup');
+        var country = document.getElementById("lookup");
+        $(country).click(function(){
             rawInput = document.getElementById("country").value;
             vari = rawInput.replace(/[^a-z0-9\s]/gi, '')
             res=document.querySelector("#result");
                 
-            })
+            
             fetch('http://localhost/info2180-lab5/world.php'+'?country='+vari)
                 .then(function(responseText){
                     if(responseText.ok){
@@ -25,13 +24,14 @@ $(document).ready(function() {
                         res.innerHTML=d;
                     })
                 });
+            
 
-        $("#cities").click(function(){
-            $(this).val('cities');
+        var cities = document.getElementById("cities");
+        $(cities).click(function(){
             rawInput = document.getElementById("country").value;
-            vari = rawInput.replace(/[^a-z0-9\s]/gi, '')
+            vari = rawInput.replace(/[^a-z0-9\s]/gi, '');            
             res=document.querySelector("#result");
-            fetch('http://localhost/info2180-lab5/world.php'+'?country='+vari+'&context=')
+            fetch('http://localhost/info2180-lab5/world.php'+'?country='+vari+'&context=cities')
                 .then(function(responseText){
                     if(responseText.ok){
                         return(responseText.text());
@@ -46,5 +46,6 @@ $(document).ready(function() {
                         res.innerHTML=d;
                     })
                 });
+            })
     
 });
