@@ -57,11 +57,17 @@ table{
 .lookup input {
     height: 7vh;
     width: 66vh;
+    padding-right: 50px;
+}
+
+.lookup{
+    padding: 30px;
 }
 
 .lookup button {
     height: 7vh;
-    width: 33vh;
+    width: 30vh;
+    padding: 0px;
 }
 
 body {
